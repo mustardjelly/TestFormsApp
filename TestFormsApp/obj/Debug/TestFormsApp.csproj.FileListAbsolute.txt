@@ -1,0 +1,14 @@
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\bin\Debug\TestFormsApp.exe.config
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\bin\Debug\TestFormsApp.exe
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\bin\Debug\TestFormsApp.pdb
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.csprojAssemblyReference.cache
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.Properties.Resources.resources
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.csproj.GenerateResource.cache
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.csproj.CoreCompileInputs.cache
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.exe
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.pdb
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\bin\Debug\TestFormsApp.exe.manifest
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\bin\Debug\TestFormsApp.application
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.exe.manifest
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.application
+C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.MainWindow.resources
