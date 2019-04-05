@@ -7,18 +7,29 @@ namespace UnitTests.DevTools {
     [TestClass]
     public class Form1UnitTest {
         [TestMethod]
-        public void MakeNumberStatusList_Debug() {
-            //MainWindow.FindVariables("Variable1Variable2Variable30Variable4", 10);
-            string[] things = {"Variable1", "public static void ThisIsTheFunction1()", "Variable1 = Variable2", "SomeFunction[variable1]"};
-            List<string> outPuts = new List<string>();
-            foreach (var thing in things) {
-                string returnString = new MainWindow().GenerateListOfInputVariables(thing);
+        public void GenerateVariablesTest() {
+            MainWindow myMainWindow = new MainWindow();
+            List<string> listOfVariablesToDetect = new List<string>()
+            {
+                "V1",
+                "Variable1",
+                "Function123(myVariable1)"
+            };
+            List<string> listOfAnswers = new List<string>()
+            {
+                "V1",
+                "Variable1",
+                "Function123"
+            };
 
-                if (returnString != string.Empty) {
-                    outPuts.Add(returnString);
-                }
-
+            for(int i = 0; i < listOfVariablesToDetect.Count; i++){
+                myMainWindow.InputText = listOfVariablesToDetect[i];
+                var myVariables = myMainWindow.GenerateListOfInputVariables();
+                myMainWindow.AddListOfSelectionVariablesToDisplayTextList(myVariables);
+                Assert.AreEqual(listOfAnswers[i], myMainWindow.DisplayTextList[i]);
             }
+
+            Assert.AreEqual(4, myMainWindow.DisplayTextList.Count);
         }
     }
 }

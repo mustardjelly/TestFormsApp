@@ -12,3 +12,16 @@ C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\bin\Debug\TestFormsApp.app
 C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.exe.manifest
 C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.application
 C:\Users\muerp\source\repos\TestFormsApp\TestFormsApp\obj\Debug\TestFormsApp.MainWindow.resources
+C:\WorkProject\WorkProject\TestFormsApp\bin\Debug\TestFormsApp.exe.config
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.exe
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.pdb
+C:\WorkProject\WorkProject\TestFormsApp\bin\Debug\TestFormsApp.exe.manifest
+C:\WorkProject\WorkProject\TestFormsApp\bin\Debug\TestFormsApp.application
+C:\WorkProject\WorkProject\TestFormsApp\bin\Debug\TestFormsApp.exe
+C:\WorkProject\WorkProject\TestFormsApp\bin\Debug\TestFormsApp.pdb
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.csprojResolveAssemblyReference.cache
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.MainWindow.resources
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.Properties.Resources.resources
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.csproj.GenerateResource.Cache
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.exe.manifest
+C:\WorkProject\WorkProject\TestFormsApp\obj\Debug\TestFormsApp.application
