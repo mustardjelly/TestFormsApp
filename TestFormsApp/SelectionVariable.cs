@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TestFormsApp {
     /// <summary>
     /// The SelectionVariable class for holding information selections made in a text box.
     /// </summary>
-    public class SelectionVariable {
-
+    public class SelectionVariable
+    {
+        private string baseWord;
         private int selectionIndex;
         private int selectionLength;
 
@@ -53,6 +55,18 @@ namespace TestFormsApp {
             }
             return outString;
             
+        }
+
+        public string BaseWord(string originalText)
+        {
+            var variable = this.ToString(originalText);
+            if (string.IsNullOrEmpty(baseWord))
+            {
+                var regexPattern = "[A-Za-z]+";
+                this.baseWord = Regex.Match(variable, regexPattern).ToString();
+            }
+
+            return baseWord;
         }
     }
 }
