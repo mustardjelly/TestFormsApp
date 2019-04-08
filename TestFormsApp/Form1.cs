@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+
 [assembly: InternalsVisibleTo("UnitTests.DevTools")]
 
 namespace TestFormsApp
@@ -17,6 +13,7 @@ namespace TestFormsApp
     public partial class MainWindow : Form
     {
         private List<SelectionVariable> selections;
+        private int Multiplier = 10;
 
         public MainWindow()
         {
@@ -33,15 +30,11 @@ namespace TestFormsApp
         {
             var removeIndex = DisplayListBox.SelectedIndex;
 
-            if (removeIndex < 0 || removeIndex >= DisplayTextList.Count)
-            {
-                return;
-            }
-
             try
             {
-                DisplayTextList.RemoveAt(removeIndex);
+                RemoveSelectionVariable(removeIndex);
                 RefreshItemDataSource(DisplayListBox, DisplayTextList);
+                SetOutputText(Multiplier);
 
             }
             catch
@@ -56,16 +49,17 @@ namespace TestFormsApp
         /// </summary>
         private void InputTextBox_MouseUp(object sender, MouseEventArgs e)
         {
-            var currentVariable = CreateCurrentSelectionVariable();
-            // Guard against white space or duplicates
-            // TODO: Should check for overlaps
-            if (string.IsNullOrWhiteSpace(currentVariable.ToString(InputText)) ||
-                selections.Contains(currentVariable))
+            if ((sender as RichTextBox).Text == string.Empty)
             {
                 return;
             }
+            var currentVariable = CreateCurrentSelectionVariable();
 
-            AddAndRefreshVariableToVariableList();
+            // Guard against white space or duplicates
+            //      Checking for white spaces
+            //      Overlap check
+            //      Duplicate check
+            AddAndRefreshVariableToVariableList(currentVariable, true);
 
         }
 
@@ -86,54 +80,171 @@ namespace TestFormsApp
             }
 
             // Reset the lists here
-            DisplayTextList?.Clear();
-            selections?.Clear();
+            ClearDisplayedVariables();
 
             InputText = InputTextBox.Text;
             // Add code for auto detecting variables here
             var listOfDetectedVariables = GenerateListOfInputVariables();
-            selections = selections.Concat(listOfDetectedVariables) as List<SelectionVariable>;
+            foreach (var sv in listOfDetectedVariables)
+            {
+                //selections.Add(sv);
+                AddAndRefreshVariableToVariableList(sv, false);
+            }
 
-            // Add detected variables to the display list
-            AddListOfSelectionVariablesToDisplayTextList(listOfDetectedVariables);
-            // Refresh the DisplayListBox
-            RefreshItemDataSource(controlObject: DisplayListBox, list: DisplayTextList);
-            // Generate auto guess in Output Box here
+            RefreshItemDataSource(DisplayListBox, DisplayTextList);
+            SetOutputText(Multiplier);
+
+            //// Add detected variables to the display list
+            //AddListOfSelectionVariablesToDisplayTextList(selections);
+            //// Refresh the DisplayListBox
+            //RefreshItemDataSource(controlObject: DisplayListBox, list: DisplayTextList);
+            //// Generate auto guess in Output Box here
+        }
+
+        /// <summary>
+        /// Sets the number of iterations to create. Defaults to 10.
+        /// </summary>
+        private void IterationsChanged(object sender, EventArgs e)
+        {
+            Multiplier = (int)(sender as NumericUpDown).Value;
+            SetOutputText(Multiplier);
         }
 
         #endregion
 
         #region Working methods
 
-        private void AddAndRefreshVariableToVariableList()
+        internal void AddAndRefreshVariableToVariableList(SelectionVariable currentVariable = null, bool refresh = false)
         {
-            selections.Add(CreateCurrentSelectionVariable());
-            DisplayTextList.Add(selections.Last().ToString(InputText));
+            #region checking code
+            if (currentVariable == null) {
+                currentVariable = CreateCurrentSelectionVariable();
+            }
 
-            RefreshItemDataSource(DisplayListBox, DisplayTextList);
+            // filter white space
+            if (currentVariable.Length == 0)
+            {
+                return;
+            }
 
-            SetOutputText(InputText, 10);
+            // filter duplicates and overlapping variables
+            foreach (var selection in selections)
+            {
+                if (DoesCurrentVariableOverlapExisting(currentVariable, selection))
+                {
+                    SetOutputText(Multiplier);
+                    return; // do not add invalid selections
+                }
+
+            }
+            #endregion
+
+            #region adding code
+            AddSelectionVariable(currentVariable);
+
+            #endregion
+
+            #region refreshing code
+
+            if (refresh)
+            {
+                RefreshItemDataSource(DisplayListBox, DisplayTextList);
+                SetOutputText(10);
+            }
+
+            #endregion
+
+        }
+
+        private void AddSelectionVariable(SelectionVariable currentVariable)
+        {
+
+            selections.Add(currentVariable);
+            var variableBase = currentVariable.BaseWord(InputText);
+            if (DisplayTextList.Contains(variableBase))
+            {
+                return;
+            }
+            DisplayTextList.Add(variableBase);
+
+        }
+
+        private void RemoveSelectionVariable(int removalIndex)
+        {
+            if (removalIndex < 0 || removalIndex >= DisplayTextList.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            var baseVariableToRemove = DisplayTextList[removalIndex];
+            DisplayTextList.RemoveAt(removalIndex);
+
+            for (int i = selections.Count - 1; i >= 0; i--)
+            {
+                if (selections[i].BaseWord(InputText) == baseVariableToRemove)
+                    selections.Remove(selections[i]);
+
+            }
+        }
+
+        /// <summary>
+        /// Clear current list of variables.
+        /// This should only occur on new instance or if the input text changes.
+        /// </summary>
+        private void ClearDisplayedVariables()
+        {
+            DisplayTextList?.Clear();
+            selections?.Clear();
 
         }
 
         private SelectionVariable CreateCurrentSelectionVariable() =>
             new SelectionVariable(InputTextBox.SelectionStart, InputTextBox.SelectionLength);
 
-        private void SetOutputText(string outputText, int multiplier = 1)
+        private void SetOutputText(int multiplier = 1)
         {
             var outString = string.Empty;
-            var counter = 0;
-            // Guard against stupid multipliers
+            var counter = 1;
+            // Guard against nonsense multipliers
             if (multiplier < 1)
             {
                 multiplier = 1;
             }
 
-            while (counter < multiplier)
+            while (counter <= multiplier)
             {
-                // Should update variables here using selectionList wizardry
-                outString += outputText + "\r\n\r\n";
-                counter++;
+                var editedVariable = string.Empty;
+                var outputText = InputText;
+                var variableNumber = 0;
+                int modifier = 0;
+
+                foreach (var selection in selections)
+                {
+                    // Get the replacement variable
+                    editedVariable =  GetVariableIteration(selection, counter);
+                    // Set the replacement variable over the original variable
+                    {
+                        var startIndex = selection.StartingIndex; // to deal with variable length that can be generated
+
+                        var firstHalf = outputText.Remove(startIndex + modifier, outputText.Length - startIndex - modifier);
+                        var secondHalf = outputText.Remove(0, startIndex + selection.Length + modifier);
+                        outputText = firstHalf + editedVariable + secondHalf;
+
+                        // add modifiers here
+                        modifier += editedVariable.Length - selection.ToString(InputText).Length;
+                    }
+                    //outputText = outputText.Replace(selection.ToString(InputText), editedVariable);
+                }
+
+                // Should update variables to use settings as defined in the application, using selectionList wizardry
+                if (counter++ != multiplier)
+                {
+                    outString += outputText + "\r\n\r\n";
+                }
+                else
+                {
+                    outString += outputText;
+                }
             }
 
             RichOutputTextBox.Text = outString;
@@ -141,12 +252,27 @@ namespace TestFormsApp
 
         }
 
+        // Takes a detected variable and replaces its number with the dictated number
+        internal string GetVariableIteration(SelectionVariable variableToEdit, int iterationCount)
+        {
+            string wordToEdit = variableToEdit.ToString(InputText);
+            string regexPattern = "([A-Za-z]+)(\\d+)";
+
+            var match = Regex.Match(wordToEdit, regexPattern);
+
+            var editedWord = match.Groups[1].ToString() + iterationCount;
+            return editedWord;
+        }
+
+        /// <summary>
+        /// Because winforms are stupid, this is how a datasource is refreashed.
+        /// </summary>
         void RefreshItemDataSource(ListControl controlObject, IEnumerable<string> list)
         {
             controlObject.DataSource = null;
             controlObject.DataSource = list;
         }
-
+        
         internal List<SelectionVariable> GenerateListOfInputVariables()
         {
             List<SelectionVariable> outListOfVariables = new List<SelectionVariable>();
@@ -168,12 +294,39 @@ namespace TestFormsApp
             return outListOfVariables;
         }
 
-        internal void AddListOfSelectionVariablesToDisplayTextList(List<SelectionVariable> inList)
+        /// <summary>
+        /// Determines if the two passed in variables overlap with each other.
+        /// </summary>
+        /// <returns></returns>
+        internal bool DoesCurrentVariableOverlapExisting(SelectionVariable currentSelectionVariable,
+            SelectionVariable existingSelectionVariable)
         {
-            foreach (var variable in inList)
+            if (currentSelectionVariable.StartingIndex < existingSelectionVariable.StartingIndex)
             {
-                DisplayTextList.Add(variable.ToString(InputText));
+                // currentVariable is before tested existing variable
+                if (currentSelectionVariable.StartingIndex + currentSelectionVariable.Length - 1 <
+                    existingSelectionVariable.StartingIndex)
+                {
+                    return false;
+                }
+                // currentVariable runs into the LHS of the existing variable
+                return true;
             }
+
+            // duplicates
+            if (currentSelectionVariable.StartingIndex == existingSelectionVariable.StartingIndex)
+            {
+                return true;
+            }
+            
+            if (currentSelectionVariable.StartingIndex >
+                // currentVariable begins after the existing variable
+                existingSelectionVariable.StartingIndex + existingSelectionVariable.Length - 1)
+            {
+                return false;
+            }
+            // currentVariable runs into the RHS of the existing variable
+            return true;
         }
 
         #endregion
