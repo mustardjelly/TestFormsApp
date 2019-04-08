@@ -55,6 +55,7 @@ namespace TestFormsApp
             }
             var currentVariable = CreateCurrentSelectionVariable();
 
+
             // Guard against white space or duplicates
             //      Checking for white spaces
             //      Overlap check
@@ -114,6 +115,9 @@ namespace TestFormsApp
 
         #region Working methods
 
+        /// <summary>
+        /// Adds a selection variable to the list and refreashes all display lists/boxes
+        /// </summary>
         internal void AddAndRefreshVariableToVariableList(SelectionVariable currentVariable = null, bool refresh = false)
         {
             #region checking code
@@ -144,21 +148,22 @@ namespace TestFormsApp
 
             #endregion
 
+            //selections = SortedSelectionsList;
+
             #region refreshing code
 
             if (refresh)
             {
                 RefreshItemDataSource(DisplayListBox, DisplayTextList);
-                SetOutputText(10);
+                SetOutputText(Multiplier);
             }
 
             #endregion
 
         }
-
+        
         private void AddSelectionVariable(SelectionVariable currentVariable)
         {
-
             selections.Add(currentVariable);
             var variableBase = currentVariable.BaseWord(InputText);
             if (DisplayTextList.Contains(variableBase))
@@ -199,7 +204,7 @@ namespace TestFormsApp
         }
 
         private SelectionVariable CreateCurrentSelectionVariable() =>
-            new SelectionVariable(InputTextBox.SelectionStart, InputTextBox.SelectionLength);
+            new SelectionVariable(InputTextBox.SelectionStart, InputTextBox.SelectionLength, InputText);
 
         private void SetOutputText(int multiplier = 1)
         {
@@ -211,29 +216,30 @@ namespace TestFormsApp
                 multiplier = 1;
             }
 
+            // iteration loop
             while (counter <= multiplier)
             {
                 var editedVariable = string.Empty;
                 var outputText = InputText;
                 var variableNumber = 0;
                 int modifier = 0;
-
-                foreach (var selection in selections)
+                // variable loop
+                foreach (var selection in SortedSelectionsList)
                 {
                     // Get the replacement variable
                     editedVariable =  GetVariableIteration(selection, counter);
-                    // Set the replacement variable over the original variable
+                    // Set the replacement variable over the original variable for this iteration
                     {
                         var startIndex = selection.StartingIndex; // to deal with variable length that can be generated
 
                         var firstHalf = outputText.Remove(startIndex + modifier, outputText.Length - startIndex - modifier);
                         var secondHalf = outputText.Remove(0, startIndex + selection.Length + modifier);
-                        outputText = firstHalf + editedVariable + secondHalf;
 
-                        // add modifiers here
-                        modifier += editedVariable.Length - selection.ToString(InputText).Length;
+                        outputText = firstHalf + editedVariable + secondHalf;
                     }
-                    //outputText = outputText.Replace(selection.ToString(InputText), editedVariable);
+
+                    // add modifiers here
+                    modifier += editedVariable.Length - selection.ToString(InputText).Length;
                 }
 
                 // Should update variables to use settings as defined in the application, using selectionList wizardry
@@ -256,7 +262,7 @@ namespace TestFormsApp
         internal string GetVariableIteration(SelectionVariable variableToEdit, int iterationCount)
         {
             string wordToEdit = variableToEdit.ToString(InputText);
-            string regexPattern = "([A-Za-z]+)(\\d+)";
+            string regexPattern = "([A-Za-z]+)(\\d+)?";
 
             var match = Regex.Match(wordToEdit, regexPattern);
 
@@ -276,16 +282,10 @@ namespace TestFormsApp
         internal List<SelectionVariable> GenerateListOfInputVariables()
         {
             List<SelectionVariable> outListOfVariables = new List<SelectionVariable>();
-            // Get Text in input box
-            // Find all matches for 
-            // regex string (" " || "(" || "." || "{" || "[")  + \w+\d
-            // e.g starts with space, left bracket, full stop, left curly brace, or left square bracket
-            // Contains any number of non numeric letters, and ends with a digits
             string regexPattern = "[\\s \\( \\. \\{ \\[ ]?([A-Za-z]+\\d+)";
             var collectionOfVariables = Regex.Matches(InputText, regexPattern);
 
-
-            // foreach match, place in variables list if not already in list
+            // foreach match, place in variables list
             foreach (Match match in collectionOfVariables)
             {
                 outListOfVariables.Add(new SelectionVariable(match.Groups[1].Index, match.Groups[1].Length));
@@ -328,6 +328,8 @@ namespace TestFormsApp
             // currentVariable runs into the RHS of the existing variable
             return true;
         }
+
+        internal List<SelectionVariable> SortedSelectionsList => selections.OrderBy(s => s.StartingIndex).ToList();
 
         #endregion
 

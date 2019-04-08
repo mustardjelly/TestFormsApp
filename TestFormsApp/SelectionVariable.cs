@@ -23,6 +23,10 @@ namespace TestFormsApp {
             this.selectionLength = length;
         }
 
+        public SelectionVariable(int index, int length, string inputText) : this(index, length){
+            BaseWord(inputText);
+        }
+
         /// <summary>
         /// Reports the starting index of the selection.
         /// </summary>
@@ -57,6 +61,7 @@ namespace TestFormsApp {
             
         }
 
+        // Returns and sets the baseword for this selection variable.
         public string BaseWord(string originalText)
         {
             var variable = this.ToString(originalText);

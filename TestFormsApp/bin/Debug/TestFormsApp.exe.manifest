@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TestFormsApp.exe" size="15840">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TestFormsApp.exe" size="16352">
       <assemblyIdentity name="TestFormsApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Up6hHLN3Lnw/IJax370QhycLRAGT3ffanplG46O0oxE=</dsig:DigestValue>
+        <dsig:DigestValue>PynwjnEMm3HlWMX4GwMZXpJycPLG4g2qxGtLQr21n6s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
