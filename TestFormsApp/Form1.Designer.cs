@@ -31,8 +31,11 @@
             this.OutputLabel = new System.Windows.Forms.Label();
             this.InputLabel = new System.Windows.Forms.Label();
             this.InputTextBox = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.selectionVariableBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.IterationsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.selectionVariableBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.IterationsNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RichOutputTextBox
@@ -45,6 +48,7 @@
             this.RichOutputTextBox.ReadOnly = true;
             this.RichOutputTextBox.Size = new System.Drawing.Size(594, 446);
             this.RichOutputTextBox.TabIndex = 12;
+            this.RichOutputTextBox.TabStop = false;
             this.RichOutputTextBox.Text = "Output";
             // 
             // DisplayListLabel
@@ -63,6 +67,7 @@
             this.DisplayListBox.Name = "DisplayListBox";
             this.DisplayListBox.Size = new System.Drawing.Size(176, 446);
             this.DisplayListBox.TabIndex = 15;
+            this.DisplayListBox.TabStop = false;
             this.DisplayListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DisplayListBox_DoubleClick);
             // 
             // StatusLabel
@@ -96,24 +101,54 @@
             // 
             // InputTextBox
             // 
+            this.InputTextBox.AcceptsTab = true;
             this.InputTextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InputTextBox.Location = new System.Drawing.Point(15, 33);
             this.InputTextBox.Name = "InputTextBox";
             this.InputTextBox.Size = new System.Drawing.Size(594, 136);
-            this.InputTextBox.TabIndex = 17;
+            this.InputTextBox.TabIndex = 0;
             this.InputTextBox.Text = "";
             this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
             this.InputTextBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.InputTextBox_MouseUp);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(615, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Iterations";
+            // 
             // selectionVariableBindingSource
             // 
             this.selectionVariableBindingSource.DataSource = typeof(TestFormsApp.SelectionVariable);
+            // 
+            // IterationsNumericUpDown
+            // 
+            this.IterationsNumericUpDown.Location = new System.Drawing.Point(730, 33);
+            this.IterationsNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.IterationsNumericUpDown.Name = "IterationsNumericUpDown";
+            this.IterationsNumericUpDown.Size = new System.Drawing.Size(70, 20);
+            this.IterationsNumericUpDown.TabIndex = 1;
+            this.IterationsNumericUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.IterationsNumericUpDown.ValueChanged += new System.EventHandler(this.IterationsChanged);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(802, 684);
+            this.Controls.Add(this.IterationsNumericUpDown);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.InputTextBox);
             this.Controls.Add(this.RichOutputTextBox);
             this.Controls.Add(this.DisplayListLabel);
@@ -124,6 +159,7 @@
             this.Name = "MainWindow";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.selectionVariableBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.IterationsNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -138,6 +174,8 @@
         private System.Windows.Forms.Label OutputLabel;
         private System.Windows.Forms.Label InputLabel;
         private System.Windows.Forms.RichTextBox InputTextBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown IterationsNumericUpDown;
     }
 }
 
