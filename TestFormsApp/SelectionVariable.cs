@@ -24,18 +24,18 @@ namespace TestFormsApp {
         }
 
         public SelectionVariable(int index, int length, string inputText) : this(index, length){
-            BaseWord(inputText);
+            SetBaseWord(inputText);
         }
 
         /// <summary>
         /// Reports the starting index of the selection.
         /// </summary>
-        public int StartingIndex => selectionIndex;
+        public int Index { set { selectionIndex = value; } get { return selectionIndex; } }
         
         /// <summary>
         /// Reports the length of the selection.
         /// </summary>
-        public int Length => selectionLength;
+        public int Length { set { selectionLength = value; } get { return selectionLength; } }
 
         public string TextString => ToString();
 
@@ -62,15 +62,17 @@ namespace TestFormsApp {
         }
 
         // Returns and sets the baseword for this selection variable.
-        public string BaseWord(string originalText)
+        public string SetBaseWord(string originalText)
         {
             var variable = this.ToString(originalText);
-            if (string.IsNullOrEmpty(baseWord))
-            {
-                var regexPattern = "[A-Za-z]+";
-                this.baseWord = Regex.Match(variable, regexPattern).ToString();
-            }
+            var regexPattern = "[A-Za-z]+";
+            this.baseWord = Regex.Match(variable, regexPattern).ToString();
 
+            return baseWord;
+        }
+
+        public string GetBaseWord()
+        {
             return baseWord;
         }
     }

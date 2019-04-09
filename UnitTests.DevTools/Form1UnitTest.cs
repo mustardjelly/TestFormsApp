@@ -36,7 +36,7 @@ namespace UnitTests.DevTools {
             foreach (var existingVariable in existingVariables)
             {
                 result = myMainWindow.DoesCurrentVariableOverlapExisting(currentVariable, existingVariable);
-                Assert.IsFalse(result, $"Expected current I:2 L:4 not to overlap with existing I:{existingVariable.StartingIndex} L:{existingVariable.Length}");
+                Assert.IsFalse(result, $"Expected current I:2 L:4 not to overlap with existing I:{existingVariable.Index} L:{existingVariable.Length}");
             }
         }
 
@@ -61,7 +61,7 @@ namespace UnitTests.DevTools {
             foreach (var existingVariable in existingVariables)
             {
                 result = myMainWindow.DoesCurrentVariableOverlapExisting(currentVariable, existingVariable);
-                Assert.IsTrue(result, $"Expected current I:2 L:4 not to overlap with existing I:{existingVariable.StartingIndex} L:{existingVariable.Length}");
+                Assert.IsTrue(result, $"Expected current I:2 L:4 not to overlap with existing I:{existingVariable.Index} L:{existingVariable.Length}");
             }
         }
 

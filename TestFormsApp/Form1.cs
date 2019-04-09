@@ -55,7 +55,6 @@ namespace TestFormsApp
             }
             var currentVariable = CreateCurrentSelectionVariable();
 
-
             // Guard against white space or duplicates
             //      Checking for white spaces
             //      Overlap check
@@ -148,8 +147,6 @@ namespace TestFormsApp
 
             #endregion
 
-            //selections = SortedSelectionsList;
-
             #region refreshing code
 
             if (refresh)
@@ -165,7 +162,7 @@ namespace TestFormsApp
         private void AddSelectionVariable(SelectionVariable currentVariable)
         {
             selections.Add(currentVariable);
-            var variableBase = currentVariable.BaseWord(InputText);
+            var variableBase = currentVariable.GetBaseWord();
             if (DisplayTextList.Contains(variableBase))
             {
                 return;
@@ -181,12 +178,12 @@ namespace TestFormsApp
                 throw new IndexOutOfRangeException();
             }
 
-            var baseVariableToRemove = DisplayTextList[removalIndex];
+            var baseWordToRemove = DisplayTextList[removalIndex];
             DisplayTextList.RemoveAt(removalIndex);
 
             for (int i = selections.Count - 1; i >= 0; i--)
             {
-                if (selections[i].BaseWord(InputText) == baseVariableToRemove)
+                if (selections[i].GetBaseWord() == baseWordToRemove)
                     selections.Remove(selections[i]);
 
             }
@@ -204,7 +201,7 @@ namespace TestFormsApp
         }
 
         private SelectionVariable CreateCurrentSelectionVariable() =>
-            new SelectionVariable(InputTextBox.SelectionStart, InputTextBox.SelectionLength, InputText);
+            StripExcess(new SelectionVariable(InputTextBox.SelectionStart, InputTextBox.SelectionLength, InputText)) ;
 
         private void SetOutputText(int multiplier = 1)
         {
@@ -230,7 +227,7 @@ namespace TestFormsApp
                     editedVariable =  GetVariableIteration(selection, counter);
                     // Set the replacement variable over the original variable for this iteration
                     {
-                        var startIndex = selection.StartingIndex; // to deal with variable length that can be generated
+                        var startIndex = selection.Index; // to deal with variable length that can be generated
 
                         var firstHalf = outputText.Remove(startIndex + modifier, outputText.Length - startIndex - modifier);
                         var secondHalf = outputText.Remove(0, startIndex + selection.Length + modifier);
@@ -273,8 +270,9 @@ namespace TestFormsApp
         /// <summary>
         /// Because winforms are stupid, this is how a datasource is refreashed.
         /// </summary>
-        void RefreshItemDataSource(ListControl controlObject, IEnumerable<string> list)
+        void RefreshItemDataSource(ListControl controlObject, List<string> list)
         {
+            list.Sort();
             controlObject.DataSource = null;
             controlObject.DataSource = list;
         }
@@ -288,7 +286,7 @@ namespace TestFormsApp
             // foreach match, place in variables list
             foreach (Match match in collectionOfVariables)
             {
-                outListOfVariables.Add(new SelectionVariable(match.Groups[1].Index, match.Groups[1].Length));
+                outListOfVariables.Add(new SelectionVariable(match.Groups[1].Index, match.Groups[1].Length, InputText));
             }
 
             return outListOfVariables;
@@ -301,11 +299,11 @@ namespace TestFormsApp
         internal bool DoesCurrentVariableOverlapExisting(SelectionVariable currentSelectionVariable,
             SelectionVariable existingSelectionVariable)
         {
-            if (currentSelectionVariable.StartingIndex < existingSelectionVariable.StartingIndex)
+            if (currentSelectionVariable.Index < existingSelectionVariable.Index)
             {
                 // currentVariable is before tested existing variable
-                if (currentSelectionVariable.StartingIndex + currentSelectionVariable.Length - 1 <
-                    existingSelectionVariable.StartingIndex)
+                if (currentSelectionVariable.Index + currentSelectionVariable.Length - 1 <
+                    existingSelectionVariable.Index)
                 {
                     return false;
                 }
@@ -314,14 +312,14 @@ namespace TestFormsApp
             }
 
             // duplicates
-            if (currentSelectionVariable.StartingIndex == existingSelectionVariable.StartingIndex)
+            if (currentSelectionVariable.Index == existingSelectionVariable.Index)
             {
                 return true;
             }
             
-            if (currentSelectionVariable.StartingIndex >
+            if (currentSelectionVariable.Index >
                 // currentVariable begins after the existing variable
-                existingSelectionVariable.StartingIndex + existingSelectionVariable.Length - 1)
+                existingSelectionVariable.Index + existingSelectionVariable.Length - 1)
             {
                 return false;
             }
@@ -329,7 +327,18 @@ namespace TestFormsApp
             return true;
         }
 
-        internal List<SelectionVariable> SortedSelectionsList => selections.OrderBy(s => s.StartingIndex).ToList();
+        internal SelectionVariable StripExcess(SelectionVariable currentVariable)
+        {
+            var regexPattern = "([A-Za-z]+[\\d?]+)";
+            var currentVariableText = currentVariable.ToString(InputText);
+            Match regexMatch = Regex.Match(currentVariableText, regexPattern);
+
+            currentVariable.Length -= currentVariableText.Length - regexMatch.Value.Length;
+            return currentVariable;
+
+        }
+
+        internal List<SelectionVariable> SortedSelectionsList => selections.OrderBy(s => s.Index).ToList();
 
         #endregion
 
