@@ -13,12 +13,18 @@ namespace TestFormsApp
     public partial class MainWindow : Form
     {
         private List<SelectionVariable> selections;
-        private int Multiplier = 10;
+        private string defaultOutputText => InputTextBox.Text.Length == 0 ? noInputDefault : noVariableDefault;
+
+        private const string noVariableDefault = "Please select a variable to continue.";
+        private const string noInputDefault = "Please type something in the input box to continue.";
+        private const string StartingIterationName = "StartingIterationNumericUpDown";
+        private const string TargetIterationName = "TargetIterationNumericUpDown";
 
         public MainWindow()
         {
             InitializeComponent();
             selections = new List<SelectionVariable>();
+            SetOutputText();
         }
 
         #region Event methods
@@ -34,12 +40,11 @@ namespace TestFormsApp
             {
                 RemoveSelectionVariable(removeIndex);
                 RefreshItemDataSource(DisplayListBox, DisplayTextList);
-                SetOutputText(Multiplier);
+                SetOutputText();
 
             }
             catch
             {
-                throw new IndexOutOfRangeException();
             }
 
         }
@@ -87,27 +92,42 @@ namespace TestFormsApp
             var listOfDetectedVariables = GenerateListOfInputVariables();
             foreach (var sv in listOfDetectedVariables)
             {
-                //selections.Add(sv);
                 AddAndRefreshVariableToVariableList(sv, false);
             }
 
             RefreshItemDataSource(DisplayListBox, DisplayTextList);
-            SetOutputText(Multiplier);
-
-            //// Add detected variables to the display list
-            //AddListOfSelectionVariablesToDisplayTextList(selections);
-            //// Refresh the DisplayListBox
-            //RefreshItemDataSource(controlObject: DisplayListBox, list: DisplayTextList);
-            //// Generate auto guess in Output Box here
+            SetOutputText();
         }
 
         /// <summary>
         /// Sets the number of iterations to create. Defaults to 10.
         /// </summary>
-        private void IterationsChanged(object sender, EventArgs e)
+        private void IterationMultiplierChanged(object sender, EventArgs e)
         {
-            Multiplier = (int)(sender as NumericUpDown).Value;
-            SetOutputText(Multiplier);
+            // multiplier = (int)(sender as NumericUpDown).Value;
+            if (!(StartingIterationNumericUpDown.Value <= TargetIterationNumericUpDown.Value)) {
+                switch((sender as NumericUpDown).Name) {
+                    case StartingIterationName:
+                        StartingIterationNumericUpDown.Value = TargetIterationNumericUpDown.Value;
+                        break;
+                    case TargetIterationName:
+                        TargetIterationNumericUpDown.Value = StartingIterationNumericUpDown.Value;
+                        break;
+                }
+
+            }
+            SetOutputText();
+        }
+
+        private void OnSpacingCheckboxChanged(object sender, EventArgs e) {
+            SetOutputText();
+        }
+
+        private void OnRemoveAllVariableButtonClicked(object sender, EventArgs e) {
+            ClearDisplayedVariables();
+            RefreshItemDataSource(DisplayListBox, DisplayTextList);
+            SetOutputText();
+
         }
 
         #endregion
@@ -135,7 +155,7 @@ namespace TestFormsApp
             {
                 if (DoesCurrentVariableOverlapExisting(currentVariable, selection))
                 {
-                    SetOutputText(Multiplier);
+                    SetOutputText();
                     return; // do not add invalid selections
                 }
 
@@ -152,7 +172,7 @@ namespace TestFormsApp
             if (refresh)
             {
                 RefreshItemDataSource(DisplayListBox, DisplayTextList);
-                SetOutputText(Multiplier);
+                SetOutputText();
             }
 
             #endregion
@@ -203,28 +223,31 @@ namespace TestFormsApp
         private SelectionVariable CreateCurrentSelectionVariable() =>
             StripExcess(new SelectionVariable(InputTextBox.SelectionStart, InputTextBox.SelectionLength, InputText)) ;
 
-        private void SetOutputText(int multiplier = 1)
+        /// <summary>
+        ///
+        /// </summary>
+        private void SetOutputText()
         {
-            var outString = string.Empty;
-            var counter = 1;
-            // Guard against nonsense multipliers
-            if (multiplier < 1)
-            {
-                multiplier = 1;
+            // Provide textual guidance
+            if (InputTextBox.Text.Length == 0 || selections.Count == 0) {
+                RichOutputTextBox.Text = defaultOutputText;
+                return;
             }
 
+            var outString = string.Empty;
+            var counter = StartingMultiplier;
+            var target = TargetMultiplier;
+
             // iteration loop
-            while (counter <= multiplier)
-            {
+            while (counter <= target) {
                 var editedVariable = string.Empty;
                 var outputText = InputText;
                 var variableNumber = 0;
                 int modifier = 0;
                 // variable loop
-                foreach (var selection in SortedSelectionsList)
-                {
+                foreach (var selection in SortedSelectionsList) {
                     // Get the replacement variable
-                    editedVariable =  GetVariableIteration(selection, counter);
+                    editedVariable =  GetIteratedVariable(selection, counter);
                     // Set the replacement variable over the original variable for this iteration
                     {
                         var startIndex = selection.Index; // to deal with variable length that can be generated
@@ -240,12 +263,9 @@ namespace TestFormsApp
                 }
 
                 // Should update variables to use settings as defined in the application, using selectionList wizardry
-                if (counter++ != multiplier)
-                {
-                    outString += outputText + "\r\n\r\n";
-                }
-                else
-                {
+                if (counter++ != target) {
+                    outString += outputText + IterationSpacer;
+                } else {
                     outString += outputText;
                 }
             }
@@ -254,9 +274,11 @@ namespace TestFormsApp
 
 
         }
-
-        // Takes a detected variable and replaces its number with the dictated number
-        internal string GetVariableIteration(SelectionVariable variableToEdit, int iterationCount)
+        
+        /// <summary>
+        /// Takes a variable and sets its iteration to a set number.
+        /// </summary>
+        internal string GetIteratedVariable(SelectionVariable variableToEdit, int iterationCount)
         {
             string wordToEdit = variableToEdit.ToString(InputText);
             string regexPattern = "([A-Za-z]+)(\\d+)?";
@@ -268,15 +290,18 @@ namespace TestFormsApp
         }
 
         /// <summary>
-        /// Because winforms are stupid, this is how a datasource is refreashed.
+        /// Because winforms are stupid, this is how my datasource is refreashed.
         /// </summary>
-        void RefreshItemDataSource(ListControl controlObject, List<string> list)
-        {
+        void RefreshItemDataSource(ListControl controlObject, List<string> list) {
             list.Sort();
             controlObject.DataSource = null;
             controlObject.DataSource = list;
         }
         
+        /// <summary>
+        /// Scans the target text and makes a best guess at variables, then iterates them in the output.
+        /// </summary>
+        /// <returns></returns>
         internal List<SelectionVariable> GenerateListOfInputVariables()
         {
             List<SelectionVariable> outListOfVariables = new List<SelectionVariable>();
@@ -293,9 +318,10 @@ namespace TestFormsApp
         }
 
         /// <summary>
-        /// Determines if the two passed in variables overlap with each other.
+        /// Determines if the two selection variables overlap with each other.
+        /// e.g     "( [ ) ]" OR
+        ///         "( [ ] )"
         /// </summary>
-        /// <returns></returns>
         internal bool DoesCurrentVariableOverlapExisting(SelectionVariable currentSelectionVariable,
             SelectionVariable existingSelectionVariable)
         {
@@ -327,18 +353,18 @@ namespace TestFormsApp
             return true;
         }
 
-        internal SelectionVariable StripExcess(SelectionVariable currentVariable)
-        {
-            var regexPattern = "([A-Za-z]+[\\d?]+)";
+        /// <summary>
+        /// Trims down a passed in current variable to an acceptable variable. 
+        /// </summary>
+        internal SelectionVariable StripExcess(SelectionVariable currentVariable) {
+            var regexPattern = "([A-Za-z]+(\\d+)?)";
             var currentVariableText = currentVariable.ToString(InputText);
             Match regexMatch = Regex.Match(currentVariableText, regexPattern);
 
-            currentVariable.Length -= currentVariableText.Length - regexMatch.Value.Length;
+            currentVariable.Length = regexMatch.Value.Length;
             return currentVariable;
 
         }
-
-        internal List<SelectionVariable> SortedSelectionsList => selections.OrderBy(s => s.Index).ToList();
 
         #endregion
 
@@ -346,6 +372,11 @@ namespace TestFormsApp
 
         public List<string> DisplayTextList = new List<string>();
         public string InputText { get; set; }
+        public string IterationSpacer => iterationSpacerCheckBox.Checked ? "\r\n\r\n" : "\r\n";
+        internal List<SelectionVariable> SortedSelectionsList => selections.OrderBy(s => s.Index).ToList();
+        
+        internal int TargetMultiplier => (int) TargetIterationNumericUpDown.Value;
+        internal int StartingMultiplier => (int) StartingIterationNumericUpDown.Value;
 
         #endregion
     }

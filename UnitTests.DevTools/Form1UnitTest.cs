@@ -76,10 +76,10 @@ namespace UnitTests.DevTools {
 
             for (int i = 0; i < 10; i++)
             {
-                resultString = myMainWindow.GetVariableIteration(mySelectionVariables[0], i);
+                resultString = myMainWindow.GetIteratedVariable(mySelectionVariables[0], i);
                 Assert.AreEqual($"Function{i}", resultString);
 
-                resultString = myMainWindow.GetVariableIteration(mySelectionVariables[1], i);
+                resultString = myMainWindow.GetIteratedVariable(mySelectionVariables[1], i);
                 Assert.AreEqual($"myVariable{i}", resultString);
 
             }
