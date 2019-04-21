@@ -24,119 +24,117 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            this.RichOutputTextBox = new System.Windows.Forms.RichTextBox();
-            this.DisplayListLabel = new System.Windows.Forms.Label();
-            this.DisplayListBox = new System.Windows.Forms.ListBox();
-            this.StatusLabel = new System.Windows.Forms.Label();
             this.OutputLabel = new System.Windows.Forms.Label();
             this.InputLabel = new System.Windows.Forms.Label();
+            this.DisplayListBox = new System.Windows.Forms.ListBox();
+            this.DisplayListLabel = new System.Windows.Forms.Label();
+            this.RichOutputTextBox = new System.Windows.Forms.RichTextBox();
             this.InputTextBox = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.TargetIterationLabel = new System.Windows.Forms.Label();
             this.TargetIterationNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.iterationSpacerCheckBox = new System.Windows.Forms.CheckBox();
+            this.SpaceOutputsLabel = new System.Windows.Forms.Label();
+            this.IterationSpacerCheckBox = new System.Windows.Forms.CheckBox();
             this.ClearVariableButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.StartingIterationLabel = new System.Windows.Forms.Label();
             this.StartingIterationNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.SelectAndCopyOutputButton = new System.Windows.Forms.Button();
+            this.ClearInputButton = new System.Windows.Forms.Button();
+            this.MainPanel = new System.Windows.Forms.Panel();
+            this.SettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.selectionVariableBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.TargetIterationNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartingIterationNumericUpDown)).BeginInit();
+            this.MainPanel.SuspendLayout();
+            this.SettingsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selectionVariableBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // RichOutputTextBox
-            // 
-            this.RichOutputTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.RichOutputTextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RichOutputTextBox.HideSelection = false;
-            this.RichOutputTextBox.Location = new System.Drawing.Point(15, 221);
-            this.RichOutputTextBox.Name = "RichOutputTextBox";
-            this.RichOutputTextBox.ReadOnly = true;
-            this.RichOutputTextBox.Size = new System.Drawing.Size(594, 446);
-            this.RichOutputTextBox.TabIndex = 12;
-            this.RichOutputTextBox.TabStop = false;
-            this.RichOutputTextBox.Text = "Output";
-            // 
-            // DisplayListLabel
-            // 
-            this.DisplayListLabel.AutoSize = true;
-            this.DisplayListLabel.Location = new System.Drawing.Point(613, 204);
-            this.DisplayListLabel.Name = "DisplayListLabel";
-            this.DisplayListLabel.Size = new System.Drawing.Size(69, 13);
-            this.DisplayListLabel.TabIndex = 16;
-            this.DisplayListLabel.Text = "Variables List";
-            // 
-            // DisplayListBox
-            // 
-            this.DisplayListBox.FormattingEnabled = true;
-            this.DisplayListBox.Location = new System.Drawing.Point(614, 221);
-            this.DisplayListBox.Name = "DisplayListBox";
-            this.DisplayListBox.Size = new System.Drawing.Size(176, 420);
-            this.DisplayListBox.TabIndex = 15;
-            this.DisplayListBox.TabStop = false;
-            this.DisplayListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DisplayListBox_DoubleClick);
-            // 
-            // StatusLabel
-            // 
-            this.StatusLabel.AutoSize = true;
-            this.StatusLabel.BackColor = System.Drawing.Color.Transparent;
-            this.StatusLabel.ForeColor = System.Drawing.Color.Black;
-            this.StatusLabel.Location = new System.Drawing.Point(570, 172);
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(37, 13);
-            this.StatusLabel.TabIndex = 14;
-            this.StatusLabel.Text = "Status";
             // 
             // OutputLabel
             // 
             this.OutputLabel.AutoSize = true;
-            this.OutputLabel.Location = new System.Drawing.Point(12, 204);
+            this.OutputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OutputLabel.Location = new System.Drawing.Point(3, 188);
             this.OutputLabel.Name = "OutputLabel";
-            this.OutputLabel.Size = new System.Drawing.Size(39, 13);
+            this.OutputLabel.Size = new System.Drawing.Size(52, 18);
             this.OutputLabel.TabIndex = 13;
             this.OutputLabel.Text = "Output";
             // 
             // InputLabel
             // 
             this.InputLabel.AutoSize = true;
-            this.InputLabel.Location = new System.Drawing.Point(12, 17);
+            this.InputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InputLabel.Location = new System.Drawing.Point(3, 9);
             this.InputLabel.Name = "InputLabel";
-            this.InputLabel.Size = new System.Drawing.Size(31, 13);
+            this.InputLabel.Size = new System.Drawing.Size(39, 18);
             this.InputLabel.TabIndex = 11;
             this.InputLabel.Text = "Input";
+            // 
+            // DisplayListBox
+            // 
+            this.DisplayListBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.DisplayListBox.FormattingEnabled = true;
+            this.DisplayListBox.Location = new System.Drawing.Point(618, 208);
+            this.DisplayListBox.Name = "DisplayListBox";
+            this.DisplayListBox.Size = new System.Drawing.Size(175, 459);
+            this.DisplayListBox.TabIndex = 15;
+            this.DisplayListBox.TabStop = false;
+            this.DisplayListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DisplayListBox_DoubleClick);
+            // 
+            // DisplayListLabel
+            // 
+            this.DisplayListLabel.AutoSize = true;
+            this.DisplayListLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DisplayListLabel.Location = new System.Drawing.Point(615, 187);
+            this.DisplayListLabel.Name = "DisplayListLabel";
+            this.DisplayListLabel.Size = new System.Drawing.Size(95, 18);
+            this.DisplayListLabel.TabIndex = 16;
+            this.DisplayListLabel.Text = "Variables List";
+            // 
+            // RichOutputTextBox
+            // 
+            this.RichOutputTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.RichOutputTextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RichOutputTextBox.HideSelection = false;
+            this.RichOutputTextBox.Location = new System.Drawing.Point(6, 209);
+            this.RichOutputTextBox.Name = "RichOutputTextBox";
+            this.RichOutputTextBox.ReadOnly = true;
+            this.RichOutputTextBox.Size = new System.Drawing.Size(603, 459);
+            this.RichOutputTextBox.TabIndex = 12;
+            this.RichOutputTextBox.TabStop = false;
+            this.RichOutputTextBox.Text = "Output";
             // 
             // InputTextBox
             // 
             this.InputTextBox.AcceptsTab = true;
             this.InputTextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InputTextBox.Location = new System.Drawing.Point(15, 33);
+            this.InputTextBox.Location = new System.Drawing.Point(6, 30);
             this.InputTextBox.Name = "InputTextBox";
-            this.InputTextBox.Size = new System.Drawing.Size(594, 136);
+            this.InputTextBox.Size = new System.Drawing.Size(603, 155);
             this.InputTextBox.TabIndex = 0;
             this.InputTextBox.Text = "";
             this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
             this.InputTextBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.InputTextBox_MouseUp);
             // 
-            // label1
+            // TargetIterationLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(630, 65);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Target Iteration";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TargetIterationLabel.AutoSize = true;
+            this.TargetIterationLabel.Location = new System.Drawing.Point(12, 59);
+            this.TargetIterationLabel.Name = "TargetIterationLabel";
+            this.TargetIterationLabel.Size = new System.Drawing.Size(79, 13);
+            this.TargetIterationLabel.TabIndex = 18;
+            this.TargetIterationLabel.Text = "Target Iteration";
+            this.TargetIterationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TargetIterationNumericUpDown
             // 
-            this.TargetIterationNumericUpDown.Location = new System.Drawing.Point(721, 63);
+            this.TargetIterationNumericUpDown.Location = new System.Drawing.Point(103, 57);
             this.TargetIterationNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.TargetIterationNumericUpDown.Name = "TargetIterationNumericUpDown";
-            this.TargetIterationNumericUpDown.Size = new System.Drawing.Size(70, 20);
+            this.TargetIterationNumericUpDown.Size = new System.Drawing.Size(66, 20);
             this.TargetIterationNumericUpDown.TabIndex = 1;
             this.TargetIterationNumericUpDown.Value = new decimal(new int[] {
             10,
@@ -145,61 +143,63 @@
             0});
             this.TargetIterationNumericUpDown.ValueChanged += new System.EventHandler(this.IterationMultiplierChanged);
             // 
-            // label2
+            // SpaceOutputsLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(630, 94);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Space Outputs";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SpaceOutputsLabel.AutoSize = true;
+            this.SpaceOutputsLabel.Location = new System.Drawing.Point(12, 88);
+            this.SpaceOutputsLabel.Name = "SpaceOutputsLabel";
+            this.SpaceOutputsLabel.Size = new System.Drawing.Size(78, 13);
+            this.SpaceOutputsLabel.TabIndex = 19;
+            this.SpaceOutputsLabel.Text = "Space Outputs";
+            this.SpaceOutputsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // iterationSpacerCheckBox
+            // IterationSpacerCheckBox
             // 
-            this.iterationSpacerCheckBox.AutoSize = true;
-            this.iterationSpacerCheckBox.Location = new System.Drawing.Point(721, 94);
-            this.iterationSpacerCheckBox.Name = "iterationSpacerCheckBox";
-            this.iterationSpacerCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.iterationSpacerCheckBox.TabIndex = 20;
-            this.iterationSpacerCheckBox.UseVisualStyleBackColor = true;
-            this.iterationSpacerCheckBox.CheckStateChanged += new System.EventHandler(this.OnSpacingCheckboxChanged);
+            this.IterationSpacerCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.IterationSpacerCheckBox.AutoSize = true;
+            this.IterationSpacerCheckBox.Location = new System.Drawing.Point(103, 88);
+            this.IterationSpacerCheckBox.Name = "IterationSpacerCheckBox";
+            this.IterationSpacerCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.IterationSpacerCheckBox.TabIndex = 2;
+            this.IterationSpacerCheckBox.UseVisualStyleBackColor = true;
+            this.IterationSpacerCheckBox.CheckStateChanged += new System.EventHandler(this.OnSpacingCheckboxChanged);
             // 
             // ClearVariableButton
             // 
-            this.ClearVariableButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.ClearVariableButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClearVariableButton.BackColor = System.Drawing.SystemColors.Control;
             this.ClearVariableButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.ClearVariableButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ClearVariableButton.Location = new System.Drawing.Point(614, 643);
+            this.ClearVariableButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ClearVariableButton.Location = new System.Drawing.Point(625, 639);
             this.ClearVariableButton.Name = "ClearVariableButton";
-            this.ClearVariableButton.Size = new System.Drawing.Size(176, 23);
-            this.ClearVariableButton.TabIndex = 21;
+            this.ClearVariableButton.Size = new System.Drawing.Size(162, 23);
+            this.ClearVariableButton.TabIndex = 6;
             this.ClearVariableButton.Text = "Clear Variables";
             this.ClearVariableButton.UseVisualStyleBackColor = false;
             this.ClearVariableButton.Click += new System.EventHandler(this.OnRemoveAllVariableButtonClicked);
             // 
-            // label3
+            // StartingIterationLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(625, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(84, 13);
-            this.label3.TabIndex = 22;
-            this.label3.Text = "Starting Iteration";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.StartingIterationLabel.AutoSize = true;
+            this.StartingIterationLabel.Location = new System.Drawing.Point(7, 29);
+            this.StartingIterationLabel.Name = "StartingIterationLabel";
+            this.StartingIterationLabel.Size = new System.Drawing.Size(84, 13);
+            this.StartingIterationLabel.TabIndex = 22;
+            this.StartingIterationLabel.Text = "Starting Iteration";
+            this.StartingIterationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // StartingIterationNumericUpDown
             // 
-            this.StartingIterationNumericUpDown.Location = new System.Drawing.Point(721, 33);
+            this.StartingIterationNumericUpDown.Location = new System.Drawing.Point(103, 27);
             this.StartingIterationNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.StartingIterationNumericUpDown.Name = "StartingIterationNumericUpDown";
-            this.StartingIterationNumericUpDown.Size = new System.Drawing.Size(69, 20);
-            this.StartingIterationNumericUpDown.TabIndex = 23;
+            this.StartingIterationNumericUpDown.Size = new System.Drawing.Size(65, 20);
+            this.StartingIterationNumericUpDown.TabIndex = 0;
             this.StartingIterationNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -207,33 +207,79 @@
             0});
             this.StartingIterationNumericUpDown.ValueChanged += new System.EventHandler(this.IterationMultiplierChanged);
             // 
+            // SelectAndCopyOutputButton
+            // 
+            this.SelectAndCopyOutputButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.SelectAndCopyOutputButton.Location = new System.Drawing.Point(427, 639);
+            this.SelectAndCopyOutputButton.Name = "SelectAndCopyOutputButton";
+            this.SelectAndCopyOutputButton.Size = new System.Drawing.Size(175, 23);
+            this.SelectAndCopyOutputButton.TabIndex = 2;
+            this.SelectAndCopyOutputButton.Text = "Select All and Copy";
+            this.SelectAndCopyOutputButton.UseVisualStyleBackColor = true;
+            this.SelectAndCopyOutputButton.Click += new System.EventHandler(this.OnSelectCopyClicked);
+            // 
+            // ClearInputButton
+            // 
+            this.ClearInputButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.ClearInputButton.Location = new System.Drawing.Point(509, 155);
+            this.ClearInputButton.Name = "ClearInputButton";
+            this.ClearInputButton.Size = new System.Drawing.Size(93, 23);
+            this.ClearInputButton.TabIndex = 1;
+            this.ClearInputButton.Text = "Clear Input";
+            this.ClearInputButton.UseVisualStyleBackColor = true;
+            this.ClearInputButton.Click += new System.EventHandler(this.OnClearInputClicked);
+            // 
+            // MainPanel
+            // 
+            this.MainPanel.AutoSize = true;
+            this.MainPanel.Controls.Add(this.SettingsGroupBox);
+            this.MainPanel.Controls.Add(this.ClearInputButton);
+            this.MainPanel.Controls.Add(this.SelectAndCopyOutputButton);
+            this.MainPanel.Controls.Add(this.ClearVariableButton);
+            this.MainPanel.Controls.Add(this.InputTextBox);
+            this.MainPanel.Controls.Add(this.RichOutputTextBox);
+            this.MainPanel.Controls.Add(this.DisplayListLabel);
+            this.MainPanel.Controls.Add(this.DisplayListBox);
+            this.MainPanel.Controls.Add(this.InputLabel);
+            this.MainPanel.Controls.Add(this.OutputLabel);
+            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainPanel.Location = new System.Drawing.Point(0, 0);
+            this.MainPanel.Name = "MainPanel";
+            this.MainPanel.Size = new System.Drawing.Size(802, 673);
+            this.MainPanel.TabIndex = 27;
+            // 
+            // SettingsGroupBox
+            // 
+            this.SettingsGroupBox.Controls.Add(this.StartingIterationNumericUpDown);
+            this.SettingsGroupBox.Controls.Add(this.StartingIterationLabel);
+            this.SettingsGroupBox.Controls.Add(this.IterationSpacerCheckBox);
+            this.SettingsGroupBox.Controls.Add(this.SpaceOutputsLabel);
+            this.SettingsGroupBox.Controls.Add(this.TargetIterationNumericUpDown);
+            this.SettingsGroupBox.Controls.Add(this.TargetIterationLabel);
+            this.SettingsGroupBox.Location = new System.Drawing.Point(618, 24);
+            this.SettingsGroupBox.Name = "SettingsGroupBox";
+            this.SettingsGroupBox.Size = new System.Drawing.Size(175, 161);
+            this.SettingsGroupBox.TabIndex = 3;
+            this.SettingsGroupBox.TabStop = false;
+            this.SettingsGroupBox.Text = "Settings";
+            // 
             // selectionVariableBindingSource
             // 
             this.selectionVariableBindingSource.DataSource = typeof(TestFormsApp.SelectionVariable);
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(802, 684);
-            this.Controls.Add(this.StartingIterationNumericUpDown);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.ClearVariableButton);
-            this.Controls.Add(this.iterationSpacerCheckBox);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.TargetIterationNumericUpDown);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.InputTextBox);
-            this.Controls.Add(this.RichOutputTextBox);
-            this.Controls.Add(this.DisplayListLabel);
-            this.Controls.Add(this.DisplayListBox);
-            this.Controls.Add(this.StatusLabel);
-            this.Controls.Add(this.OutputLabel);
-            this.Controls.Add(this.InputLabel);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(802, 673);
+            this.Controls.Add(this.MainPanel);
             this.Name = "MainWindow";
             this.Text = "Variable Iterator";
             ((System.ComponentModel.ISupportInitialize)(this.TargetIterationNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartingIterationNumericUpDown)).EndInit();
+            this.MainPanel.ResumeLayout(false);
+            this.MainPanel.PerformLayout();
+            this.SettingsGroupBox.ResumeLayout(false);
+            this.SettingsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.selectionVariableBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -242,20 +288,23 @@
 
         #endregion
         private System.Windows.Forms.BindingSource selectionVariableBindingSource;
-        private System.Windows.Forms.RichTextBox RichOutputTextBox;
-        private System.Windows.Forms.Label DisplayListLabel;
-        public System.Windows.Forms.ListBox DisplayListBox;
-        private System.Windows.Forms.Label StatusLabel;
         private System.Windows.Forms.Label OutputLabel;
         private System.Windows.Forms.Label InputLabel;
+        public System.Windows.Forms.ListBox DisplayListBox;
+        private System.Windows.Forms.Label DisplayListLabel;
+        private System.Windows.Forms.RichTextBox RichOutputTextBox;
         private System.Windows.Forms.RichTextBox InputTextBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label TargetIterationLabel;
         private System.Windows.Forms.NumericUpDown TargetIterationNumericUpDown;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox iterationSpacerCheckBox;
+        private System.Windows.Forms.Label SpaceOutputsLabel;
+        private System.Windows.Forms.CheckBox IterationSpacerCheckBox;
         private System.Windows.Forms.Button ClearVariableButton;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label StartingIterationLabel;
         private System.Windows.Forms.NumericUpDown StartingIterationNumericUpDown;
+        private System.Windows.Forms.Button SelectAndCopyOutputButton;
+        private System.Windows.Forms.Button ClearInputButton;
+        private System.Windows.Forms.Panel MainPanel;
+        private System.Windows.Forms.GroupBox SettingsGroupBox;
     }
 }
 

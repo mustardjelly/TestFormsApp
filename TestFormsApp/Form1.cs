@@ -104,7 +104,6 @@ namespace TestFormsApp
         /// </summary>
         private void IterationMultiplierChanged(object sender, EventArgs e)
         {
-            // multiplier = (int)(sender as NumericUpDown).Value;
             if (!(StartingIterationNumericUpDown.Value <= TargetIterationNumericUpDown.Value)) {
                 switch((sender as NumericUpDown).Name) {
                     case StartingIterationName:
@@ -128,6 +127,14 @@ namespace TestFormsApp
             RefreshItemDataSource(DisplayListBox, DisplayTextList);
             SetOutputText();
 
+        }
+
+        private void OnSelectCopyClicked(object sender, EventArgs e) {
+            Clipboard.SetText(RichOutputTextBox.Text);
+        }
+
+        private void OnClearInputClicked(object sender, EventArgs e) {
+            InputTextBox.Text = string.Empty;
         }
 
         #endregion
@@ -372,7 +379,7 @@ namespace TestFormsApp
 
         public List<string> DisplayTextList = new List<string>();
         public string InputText { get; set; }
-        public string IterationSpacer => iterationSpacerCheckBox.Checked ? "\r\n\r\n" : "\r\n";
+        public string IterationSpacer => IterationSpacerCheckBox.Checked ? "\r\n\r\n" : "\r\n";
         internal List<SelectionVariable> SortedSelectionsList => selections.OrderBy(s => s.Index).ToList();
         
         internal int TargetMultiplier => (int) TargetIterationNumericUpDown.Value;
